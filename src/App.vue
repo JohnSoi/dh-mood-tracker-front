@@ -1,9 +1,9 @@
+<script lang="ts" setup>
+import BaseLayout from "@/components/BaseLayout/BaseLayout.vue";
+</script>
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+    <BaseLayout></BaseLayout>
 </template>
 
 <style lang="less">
