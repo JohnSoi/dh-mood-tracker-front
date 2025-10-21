@@ -5,7 +5,3 @@ import BaseLayout from "@/components/BaseLayout/BaseLayout.vue";
 <template>
     <BaseLayout></BaseLayout>
 </template>
-
-<style lang="less">
-
-</style>

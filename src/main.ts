@@ -1,9 +1,8 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
-import router from './router'
-import store from './store'
+
 
 import './assets/styles/base.less';
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).mount('#app')

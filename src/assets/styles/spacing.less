@@ -1,0 +1,57 @@
+.spacing(@type: margin, @positions: all, @size: m) {
+  @value: var(~'--offset-@{size}');
+
+  & when (@positions = all) {
+      @{type}: @value;
+  }
+
+  & when (@positions = top) {
+      @{type}-top: @value;
+  }
+
+  & when (@positions = right) {
+      @{type}-right: @value;
+  }
+
+  & when (@positions = bottom) {
+      @{type}-bottom: @value;
+  }
+
+  & when (@positions = left) {
+      @{type}-left: @value;
+  }
+
+  & when (@positions = vertical) {
+      @{type}-top: @value;
+      @{type}-bottom: @value;
+  }
+
+  & when (@positions = horizontal) {
+      @{type}-left: @value;
+      @{type}-right: @value;
+  }
+}
+
+.m(@size: m, @positions: all) {
+  .spacing(margin, @positions, @size);
+}
+
+.p(@size: m, @positions: all) {
+  .spacing(padding, @positions, @size);
+}
+
+.p-xl {
+  .p(xl);
+}
+
+.p-xs {
+  .p(xs);
+}
+
+.ml-xs {
+  .m(m, left);
+}
+
+.mr-xs {
+  .m(m, right);
+}

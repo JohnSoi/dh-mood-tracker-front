@@ -1,56 +1,46 @@
-<script lang="ts" setup>
-import {useBaseLayout} from "./BaseLayout";
-import {type BaseLayoutEmits, type BaseLayoutProps} from "./interfaces";
-import {useRoute} from "vue-router";
-import {defineEmits, defineExpose, defineProps, onMounted, withDefaults} from "vue";
-import {ChevronLeftIcon, ChevronRightIcon,} from '@heroicons/vue/24/outline';
-
-
-const props = withDefaults(defineProps<BaseLayoutProps>(), {
-    menuMinimize: true,
-    theme: 'dark',
-    appName: "MoodTracker"
-});
-const emits = defineEmits<BaseLayoutEmits>();
-
-const {
-    isMenuMinimize,
-    currentTheme,
-    toggleMenu,
-    toggleTheme,
-    minimizeAppName
-} = useBaseLayout(props, emits);
-
-const route = useRoute();
-
-onMounted(() => {
-    document.documentElement.setAttribute('data-theme', currentTheme.value);
-})
-
-defineExpose({
-    toggleMenu,
-    toggleTheme
-})
-</script>
-
 <template>
-    <div class="BaseLayout__wrapper display-flex h-full w-full p-0">
-        <nav :class="{'BaseLayout__nav-minimize': isMenuMinimize}" class="BaseLayout__nav h-full p-3 bg-secondary">
-            <div class="BaseLayout__nav-logo">
-                DH | {{ isMenuMinimize ? minimizeAppName() : appName }}
+    <div class="BaseLayout__wrapper h-full w-full">
+        <NLayout class="h-full w-full" has-sider>
+            <NLayoutSider :collapsed="menuCollapsed" :width="200" bordered>
+                <div class="BaseLayout__logo p-xs w-full flex flex-center">
+                    <NAvatar src="./image/logo.jpg"></NAvatar>
+                    <span class="ml-xs">MoodTracker</span>
+                </div>
+                <NMenu :collapsed="menuCollapsed" :options="menuOptions" accordion></NMenu>
+            </NLayoutSider>
+            <div class="BaseLayout__content">
+                2
             </div>
-            <div class="BaseLayout__nav-menuBtn pt-3 display-flex items-center justify-center">
-                <ChevronRightIcon v-if="isMenuMinimize"
-                                  class="cursor-pointer BaseLayout__nav-menuBtn_icon text-primary transition"
-                                  title="Развернуть меню"
-                                  @click="toggleMenu"></ChevronRightIcon>
-                <ChevronLeftIcon v-if="!isMenuMinimize"
-                                 class="cursor-pointer BaseLayout__nav-menuBtn_icon text-primary transition"
-                                 title="Свернуть меню" @click="toggleMenu"></ChevronLeftIcon>
-            </div>
-        </nav>
-        <main class="p-5">4342</main>
+        </NLayout>
     </div>
 </template>
 
-<style lang="less" scoped src="./BaseLayout.less"></style>
+<script lang="ts" setup>
+import {NAvatar, NIcon, NLayout, NLayoutSider, NMenu} from "naive-ui";
+import {Component, h, ref} from "vue";
+import {MenuOption} from "naive-ui/es/menu/src/interface";
+import {HomeOutline, NewspaperOutline} from '@vicons/ionicons5'
+
+function renderIcon(icon: Component) {
+    return () => h(NIcon, null, {default: () => h(icon)})
+}
+
+const menuCollapsed = ref(false);
+const menuOptions: MenuOption[] = [
+    {
+        "label": "Главная",
+        "key": "home",
+        "href": "/",
+        "icon": renderIcon(HomeOutline)
+    },
+    {
+        "label": "Лента",
+        "key": "wall",
+        "href": "/wall",
+        "icon": renderIcon(NewspaperOutline)
+    }
+];
+</script>
+
+<style lang="less">
+</style>
