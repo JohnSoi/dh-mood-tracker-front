@@ -1,46 +1,23 @@
 <template>
-    <div class="BaseLayout__wrapper h-full w-full">
-        <NLayout class="h-full w-full" has-sider>
-            <NLayoutSider :collapsed="menuCollapsed" :width="200" bordered>
-                <div class="BaseLayout__logo p-xs w-full flex flex-center">
-                    <NAvatar src="./image/logo.jpg"></NAvatar>
-                    <span class="ml-xs">MoodTracker</span>
-                </div>
-                <NMenu :collapsed="menuCollapsed" :options="menuOptions" accordion></NMenu>
-            </NLayoutSider>
-            <div class="BaseLayout__content">
-                2
-            </div>
-        </NLayout>
+    <div class="BaseLayout__wrapper h-full w-full flex">
+        <div class="BaseLayout__menu">
+            <BaseMenu/>
+        </div>
+        <div class="BaseLayout__content shadow p-xs w-full">
+            2
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import {NAvatar, NIcon, NLayout, NLayoutSider, NMenu} from "naive-ui";
-import {Component, h, ref} from "vue";
-import {MenuOption} from "naive-ui/es/menu/src/interface";
-import {HomeOutline, NewspaperOutline} from '@vicons/ionicons5'
 
-function renderIcon(icon: Component) {
-    return () => h(NIcon, null, {default: () => h(icon)})
-}
-
-const menuCollapsed = ref(false);
-const menuOptions: MenuOption[] = [
-    {
-        "label": "Главная",
-        "key": "home",
-        "href": "/",
-        "icon": renderIcon(HomeOutline)
-    },
-    {
-        "label": "Лента",
-        "key": "wall",
-        "href": "/wall",
-        "icon": renderIcon(NewspaperOutline)
-    }
-];
+import BaseMenu from "@/components/BaseMenu/BaseMenu.vue";
 </script>
 
 <style lang="less">
+.BaseLayout__content {
+    background-color: var(--second-background-color);
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+}
 </style>
