@@ -13,11 +13,11 @@ const emit = defineEmits(['menuItemClick'])
     <div
         :class="{'grid': minimize, 'flex flex-center': !minimize}"
         class="MenuItem__wrapper cursor-pointer transition w-full p-xs"
+        :title="titleText"
         @click="emit('menuItemClick')"
     >
         <i
             :class="'fa-' + icon"
-            :title="titleText"
             class="fa-solid "
         ></i>
         <span v-if="minimize" class="ml-xs">{{ fullText || titleText }}</span>

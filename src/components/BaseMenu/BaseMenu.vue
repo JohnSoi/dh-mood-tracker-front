@@ -45,8 +45,8 @@ const activeMenuItem = ref("home");
         <MenuItem
             :minimize="menuStore.isExpanded"
             fullText="Тема"
-            icon="sun"
-            titleText="Включить ночную тему"
+            :icon="appStore.isDarkTheme() ? 'sun' : 'moon'"
+            :titleText="'Включить ' + (appStore.isDarkTheme() ? 'светлую' : 'темную') + ' тему'"
             @menuItemClick="appStore.changeTheme"
         />
     </div>
