@@ -1,17 +1,17 @@
-function loadFromStorage(): boolean {
+function loadFromStorage<T>(key: string, defaultValue: T): T {
     try {
-        const stored = localStorage.getItem('menu-expanded');
-        return stored ? JSON.parse(stored) : true;
+        const stored = localStorage.getItem(key);
+        return stored ? JSON.parse(stored) : defaultValue;
     } catch {
-        return true;
+        return defaultValue;
     }
 }
 
-function saveToStorage(value: boolean): void {
+function saveToStorage<T>(key: string, value: T): void {
     try {
-        localStorage.setItem('menu-expanded', JSON.stringify(value))
+        localStorage.setItem(key, JSON.stringify(value))
     } catch (error) {
-        console.error('Failed to save menu state:', error)
+        console.error('Ошибка записи в хранилище:', error)
     }
 }
 

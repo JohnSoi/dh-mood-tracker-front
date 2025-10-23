@@ -1,5 +1,5 @@
 <template>
-    <div class="BaseLayout__wrapper h-full w-full flex">
+    <div :class="{'dark-theme': appStore.isDarkTheme()}" class="BaseLayout__wrapper h-full w-full flex">
         <div class="BaseLayout__menu">
             <BaseMenu/>
         </div>
@@ -12,6 +12,9 @@
 <script lang="ts" setup>
 
 import BaseMenu from "@/components/BaseMenu/BaseMenu.vue";
+import {useAppStore} from "@/stores/appStore";
+
+const appStore = useAppStore();
 </script>
 
 <style lang="less">
@@ -19,5 +22,10 @@ import BaseMenu from "@/components/BaseMenu/BaseMenu.vue";
     background-color: var(--second-background-color);
     border-top-left-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
+}
+
+.BaseLayout__wrapper {
+    background-color: var(--main-background-color);
+    color: var(--main-text-color);
 }
 </style>
