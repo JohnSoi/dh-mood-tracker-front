@@ -13,7 +13,7 @@ const activeMenuItem = ref("home");
 </script>
 
 <template>
-    <div class="BaseMenu__wrapper h-full p-xs">
+    <div class="BaseMenu__wrapper h-full p-xs flex flex-column">
         <div class="BaseMenu__logo p-3xs flex flex-center cursor-default">
             <svg id="Icons" class="border-round shadow"
                  style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" xml:space="preserve"
@@ -23,7 +23,7 @@ const activeMenuItem = ref("home");
             <h1 v-if="menuStore.isExpanded" class="ml-xs pl-xs" title="Mood Tracker">MD</h1>
         </div>
         <hr class="mt-xs">
-        <div class="BaseMenu__content">
+        <div class="BaseMenu__content h-full">
             <MenuItem
                 :icon="menuStore.isExpanded ? 'align-left' : 'align-justify'"
                 :minimize="menuStore.isExpanded"
