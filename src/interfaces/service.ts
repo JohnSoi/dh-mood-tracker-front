@@ -60,6 +60,8 @@ interface IRequestParams {
     headers: IHeaders;
     /** Сигнал для управления прерыванием запроса по таймауту */
     signal: AbortSignal;
+    /** Токен авторизации */
+    token?: string;
 }
 
 

@@ -1,4 +1,5 @@
 import {IBindings, IEndpointFullConfig, IHeaders, IRequestParams, ISourceServiceConfig} from "@/interfaces/service";
+import {loadFromStorage} from "@/utils/localStorage";
 
 /**
  * Базовый сервис для работы с API
@@ -233,6 +234,10 @@ class SourceService {
             },
             signal: controller.signal
         };
+
+        if (loadFromStorage("token", null)) {
+            requestParams.token = `Bearer ${loadFromStorage("token", "")}`
+        }
 
         if (request) {
             requestParams["body"] = JSON.stringify(request);
