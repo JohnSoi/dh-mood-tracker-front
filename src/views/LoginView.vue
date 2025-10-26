@@ -2,6 +2,7 @@
 import {useAuthStore} from "@/stores/authStore";
 import {Ref, ref} from "vue";
 import BaseInput from "@/components/BaseInput.vue";
+import BaseButton from "@/components/BaseButton.vue";
 
 const formData = ref({
     login: "",
@@ -36,10 +37,9 @@ const changePasswordFieldType = (): void => {
                            :type="passwordFieldType"
                            @after-icon-click="changePasswordFieldType"
                            :required="true"
-                           :readonly="!formData.login"
                            autocomplete="userPassword"
                 />
-
+                <BaseButton title="Войти" :rounded="true" theme="accent" icon="lock-open" @click="authProcess"/>
             </form>
         </div>
     </div>

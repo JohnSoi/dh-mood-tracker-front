@@ -1,0 +1,268 @@
+.BaseButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid;
+  border-radius: var(--base-button-border-radius);
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--base-button-transition);
+  user-select: none;
+  outline: none;
+
+  // Размеры
+  &--small {
+    padding: 4px 12px;
+    font-size: 12px;
+    min-height: 28px;
+  }
+
+  &--medium {
+    padding: 8px 16px;
+    font-size: 14px;
+    min-height: 36px;
+  }
+
+  &--large {
+    padding: 12px 24px;
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  // Темы
+  &--default {
+    background-color: var(--default-bg);
+    color: var(--default-color);
+    border-color: var(--default-border);
+
+    &:not(.BaseButton--disabled):not(.BaseButton--loading):hover {
+      background-color: var(--default-hover);
+      border-color: var(--default-border);
+    }
+  }
+
+  &--accent {
+    background-color: var(--accent-bg);
+    color: var(--accent-color);
+    border-color: var(--accent-border);
+
+    &:not(.BaseButton--disabled):not(.BaseButton--loading):hover {
+      background-color: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+  }
+
+  &--warning {
+    background-color: var(--warning-bg);
+    color: var(--warning-color);
+    border-color: var(--warning-border);
+
+    &:not(.BaseButton--disabled):not(.BaseButton--loading):hover {
+      background-color: var(--warning-hover);
+      border-color: var(--warning-hover);
+    }
+  }
+
+  &--error {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+    border-color: var(--error-border);
+
+    &:not(.BaseButton--disabled):not(.BaseButton--loading):hover {
+      background-color: var(--error-hover);
+      border-color: var(--error-hover);
+    }
+  }
+
+  &--success {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+    border-color: var(--success-border);
+
+    &:not(.BaseButton--disabled):not(.BaseButton--loading):hover {
+      background-color: var(--success-hover);
+      border-color: var(--success-hover);
+    }
+  }
+
+  &--ghost {
+    background-color: var(--ghost-bg);
+    color: var(--ghost-color);
+    border-color: var(--ghost-border);
+
+    &:not(.BaseButton--disabled):not(.BaseButton--loading):hover {
+      background-color: var(--ghost-hover);
+    }
+  }
+
+  // Outline вариант
+  &--outline {
+    background-color: transparent;
+
+    &.BaseButton--default {
+      color: var(--default-color);
+      border-color: var(--default-border);
+
+      &:hover {
+        background-color: var(--default-bg);
+      }
+    }
+
+    &.BaseButton--accent {
+      color: var(--accent-bg);
+      border-color: var(--accent-border);
+
+      &:hover {
+        background-color: var(--accent-bg);
+        color: var(--accent-color);
+      }
+    }
+
+    &.BaseButton--warning {
+      color: var(--warning-bg);
+      border-color: var(--warning-border);
+
+      &:hover {
+        background-color: var(--warning-bg);
+        color: var(--warning-color);
+      }
+    }
+
+    &.BaseButton--error {
+      color: var(--error-bg);
+      border-color: var(--error-border);
+
+      &:hover {
+        background-color: var(--error-bg);
+        color: var(--error-color);
+      }
+    }
+
+    &.BaseButton--success {
+      color: var(--success-bg);
+      border-color: var(--success-border);
+
+      &:hover {
+        background-color: var(--success-bg);
+        color: var(--success-color);
+      }
+    }
+  }
+
+  // Состояния
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &--loading {
+    cursor: wait;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  &--rounded {
+    border-radius: var(--base-button-border-radius-rounded);
+  }
+
+  // Focus состояние
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
+
+  &--focused {
+    transform: translateY(-1px);
+  }
+
+  &--active {
+    transform: translateY(1px);
+  }
+}
+
+// Элементы кнопки
+.BaseButton__loader {
+  display: flex;
+  align-items: center;
+
+  .fa-spinner {
+    font-size: 14px;
+  }
+}
+
+.BaseButton__icon {
+  font-size: 14px;
+  flex-shrink: 0;
+
+  &--left {
+    order: 1;
+  }
+
+  &--right {
+    order: 3;
+  }
+}
+
+.BaseButton__content {
+  order: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &--hidden {
+    opacity: 0;
+  }
+}
+
+.BaseButton__badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: var(--error-bg);
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+
+  // Темы бейджа
+  .BaseButton--accent & {
+    background-color: var(--accent-bg);
+  }
+
+  .BaseButton--warning & {
+    background-color: var(--warning-bg);
+  }
+
+  .BaseButton--error & {
+    background-color: var(--error-bg);
+  }
+
+  .BaseButton--default & {
+    background-color: var(--default-color);
+    color: var(--default-bg);
+  }
+}
+
+// Анимации
+.BaseButton {
+  transition: var(--base-button-transition);
+}
+
+.BaseButton__loader .fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

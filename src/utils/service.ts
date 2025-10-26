@@ -105,6 +105,11 @@ class SourceService {
     protected _prepareAddress(endpoint: string | IEndpointFullConfig): void {
         if (typeof endpoint === "string") {
             this._address += endpoint;
+
+            if (!this._address.endsWith("/")) {
+                this._address += "/";
+            }
+
             return;
         }
 
@@ -119,6 +124,10 @@ class SourceService {
         }
 
         this._address += endpoint.contract;
+
+        if (!this._address.endsWith("/")) {
+            this._address += "/";
+        }
     }
 
     /**
