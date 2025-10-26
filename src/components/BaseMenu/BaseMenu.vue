@@ -3,13 +3,26 @@ import {useMenuStore} from "@/stores/menuStore";
 import {ref} from "vue";
 
 import MenuItem from "@/components/BaseMenu/MenuItem.vue";
-import {MENU_ITEMS} from "@/components/BaseMenu/consts";
+import {MENU_ITEMS} from "@/constants/base";
 import {useAppStore} from "@/stores/appStore";
+import {IMenuItem} from "@/interfaces/base";
+import {useAuthStore} from "@/stores/authStore";
 
 const menuStore = useMenuStore();
 const appStore = useAppStore();
+const authStore = useAuthStore();
 
 const activeMenuItem = ref("home");
+
+const menuItems = ref<IMenuItem[]>([]);
+
+MENU_ITEMS.forEach((item: IMenuItem) => {
+    if (!authStore.isAuthenticated && !item.public) {
+      return;
+    }
+
+    menuItems.value.push(item);
+})
 </script>
 
 <template>
@@ -33,12 +46,13 @@ const activeMenuItem = ref("home");
             />
             <hr>
             <MenuItem
-                v-for="item in MENU_ITEMS"
+                v-for="item in menuItems"
                 :key="item.key"
                 :class="{'BaseMenu__button-active': activeMenuItem == item.key}"
                 :icon="item.icon"
                 :minimize="menuStore.isExpanded"
                 :titleText="item.title"
+                :path="item.href"
             />
         </div>
         <hr>

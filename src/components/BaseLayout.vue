@@ -4,7 +4,7 @@
             <BaseMenu/>
         </div>
         <div class="BaseLayout__content shadow p-xs w-full">
-            2
+            <router-view></router-view>
         </div>
     </div>
 </template>

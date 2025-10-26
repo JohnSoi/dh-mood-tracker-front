@@ -4,9 +4,10 @@ defineProps<{
     titleText: string;
     icon: string;
     fullText?: string;
+    path?: string;
 }>();
 
-const emit = defineEmits(['menuItemClick'])
+const emit = defineEmits(['menuItemClick']);
 </script>
 
 <template>
@@ -16,11 +17,19 @@ const emit = defineEmits(['menuItemClick'])
         :title="titleText"
         @click="emit('menuItemClick')"
     >
+        <router-link :to="path" v-if="path">
+            <i
+                :class="'fa-' + icon"
+                class="fa-solid "
+            ></i>
+            <span v-if="minimize" class="ml-xs">{{ fullText || titleText }}</span>
+        </router-link>
         <i
             :class="'fa-' + icon"
-            class="fa-solid "
+            class="fa-solid"
+            v-if="!path"
         ></i>
-        <span v-if="minimize" class="ml-xs">{{ fullText || titleText }}</span>
+        <span v-if="minimize && !path" class="ml-xs">{{ fullText || titleText }}</span>
     </div>
 </template>
 

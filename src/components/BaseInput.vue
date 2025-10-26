@@ -1,0 +1,237 @@
+<script setup lang="ts">
+import {IBaseInputProps} from "@/components/BaseInput/interfaces";
+
+const props = withDefaults(defineProps<IBaseInputProps>(), {
+    hasLabel: true,
+    type: "text",
+    disabled: false,
+    readonly: false,
+    required: false,
+});
+
+const emit = defineEmits<{
+    'iconClick': [];
+    'afterIconClick': [];
+    'update:value': [value: string];
+    'focus': [event: FocusEvent];
+    'blur': [event: FocusEvent];
+    'input': [event: Event];
+}>();
+
+const handleInput = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    emit('update:value', target.value);
+    emit('input', event);
+};
+
+const handleFocus = (event: FocusEvent) => {
+    emit('focus', event);
+};
+
+const handleBlur = (event: FocusEvent) => {
+    emit('blur', event);
+};
+</script>
+
+<template>
+    <div class="BaseInput__wrapper w-full">
+        <label
+            :for="name"
+            class="BaseInput__label"
+            :class="{ 'BaseInput__label--hidden': !hasLabel }"
+        >
+            {{ title }}
+            <span v-if="required" class="BaseInput__required">*</span>
+        </label>
+
+        <div
+            class="BaseInput__content pl-xs pr-xs flex f-align-center border-round w-full mb-xs"
+            :class="{
+                'mt-2xs': hasLabel,
+                'BaseInput__content--error': error,
+                'BaseInput__content--success': success,
+                'BaseInput__content--disabled': disabled,
+                'BaseInput__content--readonly': readonly
+            }"
+        >
+            <i
+                v-if="icon"
+                class="fa BaseInput__icon"
+                :class="'fa-' + icon"
+                @click="emit('iconClick')"
+            ></i>
+
+            <input
+                :id="name"
+                :name="name"
+                :type="type"
+                :value="value"
+                :placeholder="placeholder"
+                :disabled="disabled"
+                :readonly="readonly"
+                :autocomplete="autocomplete"
+                :maxlength="maxlength"
+                :minlength="minlength"
+                :required="required"
+                class="BaseInput__input ml-xs border-round w-full"
+                @input="handleInput"
+                @focus="handleFocus"
+                @blur="handleBlur"
+            >
+
+            <i
+                v-if="afterIcon"
+                class="fa BaseInput__icon BaseInput__icon--after"
+                :class="'fa-' + afterIcon"
+                @click="emit('afterIconClick')"
+            ></i>
+        </div>
+
+        <div
+            v-if="error"
+            class="BaseInput__error-message"
+        >
+            {{ error }}
+        </div>
+
+        <div
+            v-if="maxlength"
+            class="BaseInput__counter"
+            :class="{ 'BaseInput__counter--error': value.length > maxlength }"
+        >
+            {{ value.length }} / {{ maxlength }}
+        </div>
+    </div>
+</template>
+
+<style scoped lang="less">
+
+.BaseInput__wrapper {
+    position: relative;
+}
+
+.BaseInput__label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+
+    &--hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+.BaseInput__required {
+    color: var(--error-color);
+    margin-left: 2px;
+}
+
+.BaseInput__content {
+    border: var(--base-input-border-width) solid var(--additional-color);
+    height: var(--base-input-height);
+    transition: var(--base-input-transition);
+    background: var(--background-color);
+
+    &--focused {
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 2px rgba(var(--main-color-rgb), 0.1);
+    }
+
+    &--error {
+        border-color: var(--error-color);
+    }
+
+    &--success {
+        border-color: var(--success-color);
+    }
+
+    &--disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: var(--disabled-bg);
+    }
+
+    &--readonly {
+        background-color: var(--readonly-bg);
+    }
+}
+
+.BaseInput__input {
+    border: none;
+    height: 100%;
+    background: transparent;
+    font-size: 14px;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    &::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.7;
+    }
+}
+
+.BaseInput__icon {
+    font-size: var(--base-input-icon-size);
+    color: var(--text-secondary);
+    transition: var(--base-input-transition);
+    flex-shrink: 0;
+
+    &--clickable {
+        cursor: pointer;
+
+        &:hover {
+            color: var(--main-color);
+        }
+    }
+
+    &--after {
+        margin-left: auto;
+    }
+}
+
+.BaseInput__error-message {
+    color: var(--error-color);
+    font-size: 12px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.BaseInput__counter {
+    font-size: 11px;
+    text-align: right;
+    margin-top: 2px;
+    color: var(--text-secondary);
+
+    &--error {
+        color: var(--error-color);
+    }
+}
+
+// Анимации
+.BaseInput__content {
+    transition: all var(--base-input-transition);
+}
+
+// Темная тема
+@media (prefers-color-scheme: dark) {
+    .BaseInput__input {
+        color: var(--text-primary-dark);
+    }
+}
+</style>

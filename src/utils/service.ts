@@ -30,7 +30,7 @@ import {loadFromStorage} from "@/utils/localStorage";
  * ```
  */
 class SourceService {
-    protected _address: string = "http://localhost:8000/";
+    protected _address = "http://localhost:8000/";
     protected _bindings: Required<IBindings> = {
         query: "list",
         create: "create",
@@ -221,7 +221,7 @@ class SourceService {
      *
      * @throws {Error} Выбрасывает ошибку при проблемах с сетью
      */
-    protected async _sendRequest<RequestT, ResponseT>(url: string, request?: RequestT, methodType?: string, headers?: IHeaders, timeout: number = 10000): Promise<ResponseT | null> {
+    protected async _sendRequest<RequestT, ResponseT>(url: string, request?: RequestT, methodType?: string, headers?: IHeaders, timeout = 10000): Promise<ResponseT | null> {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeout);
 

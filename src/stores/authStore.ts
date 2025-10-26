@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {computed, Ref, ref} from "vue";
+import {computed, ComputedRef, Ref, ref} from "vue";
 import {loadFromStorage} from "@/utils/localStorage";
 import SourceService from "@/utils/service";
 
@@ -16,11 +16,11 @@ interface IUserRegisterData extends IUserData {
 }
 
 
-const useAuthStore = defineStore("auth", async () => {
-    const user: Ref<IUserData | null> = ref(null);
+const useAuthStore = defineStore("auth", () => {
+    const user: Ref<IUserData | null> = ref(loadFromStorage<IUserData | null>("user", null));
     const token: Ref<string> = ref(loadFromStorage("token", ""));
 
-    const isAuthenticated = computed(() => !!token.value);
+    const isAuthenticated: ComputedRef<boolean> = computed(() => !!token.value);
 
     const authService: SourceService = new SourceService({
         endpoint: "auth"
@@ -30,10 +30,6 @@ const useAuthStore = defineStore("auth", async () => {
         await authService.call<unknown, IUserData>('me').then((res: IUserData | null) => {
             user.value = res;
         });
-    }
-
-    if (token.value && !user.value) {
-        await setUserData();
     }
 
     const login = async (login: string, password: string): Promise<boolean> => {
@@ -61,10 +57,28 @@ const useAuthStore = defineStore("auth", async () => {
         return false;
     }
 
+    const logout = async (): Promise<boolean> => {
+        await authService.call<unknown, boolean>("logout").then((response: boolean | null) => {
+            if (response) {
+                user.value = null;
+                token.value = '';
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                return true;
+            }
+        });
+
+        return false;
+    }
+
     return {
+        token,
         user,
         isAuthenticated,
         login,
+        register,
+        logout,
+        setUserData
     }
 });
 
