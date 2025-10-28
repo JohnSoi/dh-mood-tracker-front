@@ -55,12 +55,25 @@ MENU_ITEMS.forEach((item: IMenuItem) => {
                 :path="item.href"
             />
         </div>
+        <div v-if="authStore.user">
+            <hr>
+            <div :title="authStore.user.full_name" class="BaseMenu__user cursor-default p-xs m-xs flex flex-center">
+                {{ authStore.user.initials }}
+            </div>
+        </div>
         <hr>
         <MenuItem
             :minimize="menuStore.isExpanded"
             fullText="Тема"
             :icon="appStore.isDarkTheme() ? 'sun' : 'moon'"
             :titleText="'Включить ' + (appStore.isDarkTheme() ? 'светлую' : 'темную') + ' тему'"
+            @menuItemClick="appStore.changeTheme"
+        />
+        <MenuItem
+            :minimize="menuStore.isExpanded"
+            fullText="Выход"
+            icon="right-from-bracket"
+            titleText="Выйти из системы"
             @menuItemClick="appStore.changeTheme"
         />
     </div>
@@ -88,4 +101,13 @@ MENU_ITEMS.forEach((item: IMenuItem) => {
 .BaseMenu__logo-iconAdditional {
     fill: var(--additional-color);
 }
+
+.BaseMenu__user {
+    background-color: var(--additional-color);
+    border-radius: 9999px;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+}
+
 </style>

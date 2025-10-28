@@ -11,29 +11,39 @@ const emit = defineEmits(['menuItemClick']);
 </script>
 
 <template>
-    <div
-        :class="{'grid': minimize, 'flex flex-center': !minimize}"
-        class="MenuItem__wrapper cursor-pointer transition w-full p-xs"
-        :title="titleText"
-        @click="emit('menuItemClick')"
-    >
-        <router-link :to="path" v-if="path">
+    <router-link v-if="path" :to="path">
+        <div
+            :class="{'grid': minimize, 'flex flex-center': !minimize}"
+            :title="titleText"
+            class="MenuItem__wrapper cursor-pointer transition w-full p-xs"
+        >
             <i
                 :class="'fa-' + icon"
                 class="fa-solid "
             ></i>
             <span v-if="minimize" class="ml-xs">{{ fullText || titleText }}</span>
-        </router-link>
+        </div>
+    </router-link>
+    <div
+        v-if="!path"
+        :class="{'grid': minimize, 'flex flex-center': !minimize}"
+        :title="titleText"
+        class="MenuItem__wrapper cursor-pointer transition w-full p-xs"
+        @click="emit('menuItemClick')"
+    >
         <i
             :class="'fa-' + icon"
-            class="fa-solid"
-            v-if="!path"
+            class="fa-solid "
         ></i>
-        <span v-if="minimize && !path" class="ml-xs">{{ fullText || titleText }}</span>
+        <span v-if="minimize" class="ml-xs">{{ fullText || titleText }}</span>
     </div>
 </template>
 
 <style lang="less" scoped>
+a {
+    text-decoration: none;
+}
+
 .MenuItem__wrapper {
     color: var(--additional-color);
     grid-template-columns: 20% auto;
@@ -43,5 +53,10 @@ const emit = defineEmits(['menuItemClick']);
         background-color: var(--hover-background-color);
         border-bottom: 2px solid var(--additional-color);
     }
+}
+
+
+.router-link-active > .MenuItem__wrapper {
+    color: var(--main-color);
 }
 </style>

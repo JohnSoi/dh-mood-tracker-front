@@ -3,11 +3,15 @@ import {computed, ComputedRef, Ref, ref} from "vue";
 import {loadFromStorage, saveToStorage} from "@/utils/localStorage";
 import SourceService from "@/utils/service";
 
-interface IUserData {
-    email: string;
+interface IPersonData {
     name: string;
     surname: string;
     patronymic?: string;
+}
+
+interface IUserData extends IPersonData {
+    email: string;
+
 }
 
 interface IUserRegisterData extends IUserData {
@@ -15,9 +19,17 @@ interface IUserRegisterData extends IUserData {
     password: string;
 }
 
+interface IPersonFullData extends IUserData {
+    full_name: string;
+    short_full_name: string;
+    initials: string;
+}
+
+
+
 
 const useAuthStore = defineStore("auth", () => {
-    const user: Ref<IUserData | null> = ref(loadFromStorage<IUserData | null>("user", null));
+    const user: Ref<IPersonFullData | null> = ref(loadFromStorage<IPersonFullData | null>("user", null));
     const token: Ref<string> = ref(loadFromStorage("token", ""));
 
     const isAuthenticated: ComputedRef<boolean> = computed(() => !!token.value);
@@ -27,10 +39,10 @@ const useAuthStore = defineStore("auth", () => {
     });
 
     const setUserData = async (): Promise<void> => {
-        await authService.call<unknown, IUserData>('me').then((res: IUserData | null) => {
+        await authService.call<unknown, IPersonFullData>('me').then((res: IPersonFullData | null) => {
             if (res) {
                 user.value = res;
-                saveToStorage("user", JSON.stringify(res));
+                saveToStorage("user", res);
             }
         });
     }
@@ -82,7 +94,7 @@ const useAuthStore = defineStore("auth", () => {
         login,
         register,
         logout,
-        setUserData
+        setUserData,
     }
 });
 
