@@ -1,5 +1,3 @@
-import {Component} from "vue";
-
 /**
  * Интерфейс для пункта меню
  * @interface
@@ -42,4 +40,11 @@ interface IMenuItem {
     public?: boolean;
 }
 
-export {IMenuItem};
+interface IApiError {
+    status: number;
+    details: string;
+    retryCallback?: () => Promise<void>;
+    showRetry?: boolean;
+}
+
+export {IMenuItem, IApiError};

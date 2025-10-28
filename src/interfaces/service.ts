@@ -62,6 +62,8 @@ interface IRequestParams {
     signal: AbortSignal;
     /** Токен авторизации */
     token?: string;
+    /** Способ использование кук в запросе*/
+    credentials: string;
 }
 
 

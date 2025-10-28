@@ -1,5 +1,6 @@
 import {IBindings, IEndpointFullConfig, IHeaders, IRequestParams, ISourceServiceConfig} from "@/interfaces/service";
 import {loadFromStorage} from "@/utils/localStorage";
+import {EventBus} from "@/utils/eventBus";
 
 /**
  * Базовый сервис для работы с API
@@ -241,11 +242,12 @@ class SourceService {
                 "Content-Type": "application/json",
                 ...headers
             },
-            signal: controller.signal
+            signal: controller.signal,
+            credentials: 'include'
         };
 
         if (loadFromStorage("token", null)) {
-            requestParams.token = `Bearer ${loadFromStorage("token", "")}`
+            requestParams.headers.token = `Bearer ${loadFromStorage("token", "")}`
         }
 
         if (request) {
@@ -253,9 +255,10 @@ class SourceService {
         }
 
         try {
-            const response = await fetch(this._address + url, requestParams as RequestInit);
+            const response = (await fetch(this._address + url, requestParams as RequestInit));
             clearTimeout(timeoutId);
-            if (this._hasError(response)) {
+
+            if (await this._hasError(response)) {
                 return null;
             }
 
@@ -279,19 +282,28 @@ class SourceService {
      * @param {Response} response - Объект ответа Fetch API
      * @returns {boolean} true если есть ошибка, false если запрос успешен
      */
-    protected _hasError(response: Response): boolean {
+    protected async _hasError(response: Response): Promise<boolean> {
         if (response.ok) {
             return false;
         }
-
+        const errorData: { detail: string } = await response.json();
         console.log("При запросе произошла ошибка: " + response.statusText + " с кодом " + response.status);
 
-        if (response.status === 401) {
-            console.log("Ошибка аутентификации");
-        }
+        EventBus.emit('api:error', {status: response.status, details: errorData.detail});
 
-        if (response.status === 403) {
-            console.log("Ошибка доступа");
+        switch (response.status) {
+            case 401:
+                console.log("Ошибка аутентификации");
+                break;
+            case 403:
+                console.log("Ошибка доступа");
+                break;
+            case 404:
+                console.log("Сущность не существует");
+                break;
+            case 422:
+                console.log("Ошибка валидации");
+                break;
         }
 
         return true

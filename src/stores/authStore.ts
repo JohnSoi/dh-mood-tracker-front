@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {computed, ComputedRef, Ref, ref} from "vue";
-import {loadFromStorage} from "@/utils/localStorage";
+import {loadFromStorage, saveToStorage} from "@/utils/localStorage";
 import SourceService from "@/utils/service";
 
 interface IUserData {
@@ -28,7 +28,10 @@ const useAuthStore = defineStore("auth", () => {
 
     const setUserData = async (): Promise<void> => {
         await authService.call<unknown, IUserData>('me').then((res: IUserData | null) => {
-            user.value = res;
+            if (res) {
+                user.value = res;
+                saveToStorage("user", JSON.stringify(res));
+            }
         });
     }
 
@@ -38,6 +41,7 @@ const useAuthStore = defineStore("auth", () => {
         ).then(async (response: string | null) => {
             if (response) {
                 token.value = response;
+                saveToStorage("token", response);
                 await setUserData();
 
                 return true;

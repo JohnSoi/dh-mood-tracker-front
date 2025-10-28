@@ -6,6 +6,7 @@
         <div class="BaseLayout__content shadow p-xs w-full">
             <router-view></router-view>
         </div>
+        <GlobalErrorProvider/>
     </div>
 </template>
 

@@ -30,16 +30,17 @@ const changePasswordFieldType = (): void => {
         <div class="LoginView__form" v-if="activePage === 'login'">
             <form @submit.prevent="authProcess">
                 <BaseInput title="Логин" name="login" :has-label="true" icon="user" placeholder="Введите ваш логин"
-                           :value="formData.login" :required="true" autocomplete="userLogin"/>
+                           v-model:value="formData.login" :required="true" autocomplete="userLogin"/>
                 <BaseInput title="Пароль" name="password" :has-label="true" icon="key" placeholder="Введите ваш пароль"
-                           :value="formData.password"
+                           v-model:value="formData.password"
                            after-icon="eye"
                            :type="passwordFieldType"
                            @after-icon-click="changePasswordFieldType"
                            :required="true"
                            autocomplete="userPassword"
                 />
-                <BaseButton title="Войти" :rounded="true" theme="accent" icon="lock-open" @click="authProcess"/>
+                <BaseButton :rounded="true" class="w-full" icon="lock-open" theme="accent" title="Войти"
+                            @click="authProcess"/>
             </form>
         </div>
     </div>
