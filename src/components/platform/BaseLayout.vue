@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 
-import BaseMenu from "@/components/platform/BaseMenu/BaseMenu.vue";
+import BaseMenu from "@/components/platform/BaseMenu.vue";
 import {useAppStore} from "@/stores/appStore";
 
 const appStore = useAppStore();
