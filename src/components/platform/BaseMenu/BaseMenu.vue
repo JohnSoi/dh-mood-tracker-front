@@ -2,7 +2,7 @@
 import {useMenuStore} from "@/stores/menuStore";
 import {onBeforeUpdate, ref} from "vue";
 
-import MenuItem from "@/components/BaseMenu/MenuItem.vue";
+import MenuItem from "@/components/platform/BaseMenu/MenuItem.vue";
 import {MENU_ITEMS} from "@/constants/base";
 import {useAppStore} from "@/stores/appStore";
 import {IMenuItem} from "@/interfaces/base";
@@ -90,6 +90,7 @@ onBeforeUpdate(() => {
             fullText="Выход"
             icon="right-from-bracket"
             titleText="Выйти из системы"
+            v-if="authStore.isAuthenticated"
             @menuItemClick="authStore.logout"
         />
     </div>

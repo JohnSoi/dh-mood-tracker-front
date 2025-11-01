@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {IBaseInputProps} from "@/components/BaseInput/interfaces";
+import {IBaseInputProps} from "@/components/platform/BaseInput/interfaces";
 
 withDefaults(defineProps<IBaseInputProps>(), {
     hasLabel: true,

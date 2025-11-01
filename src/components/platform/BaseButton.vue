@@ -44,8 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import {IBaseButtonEmits, IBaseButtonProps} from "@/components/BaseButton/interfaces";
+import {computed, ref} from 'vue';
+import {IBaseButtonEmits, IBaseButtonProps} from "@/components/platform/BaseButton/interfaces";
 
 
 const props = withDefaults(defineProps<IBaseButtonProps>(), {

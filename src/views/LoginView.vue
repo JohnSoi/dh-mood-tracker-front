@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {useAuthStore} from "@/stores/authStore";
 import {Ref, ref} from "vue";
-import BaseInput from "@/components/BaseInput.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import {EventBus} from "@/utils/eventBus";
+import BaseInput from "@/components/platform/BaseInput.vue";
+import BaseButton from "@/components/platform/BaseButton.vue";
+import LoadingIndicator from "@/components/platform/LoadingIndicator.vue";
 
 const formData = ref({
     login: "",
@@ -40,7 +40,9 @@ const registerProcess = async () => {
         return;
     }
 
-    if (formRegisterData.value.email && await authStore.authService.call<string, boolean>("emailExists", formRegisterData.value.email)) {
+    if (formRegisterData.value.email && await authStore.authService.call<{
+        email: string
+    }, boolean>("email_exists", {email: formRegisterData.value.email})) {
         EventBus.emit('app:error', {
             title: "Ошибка валидации",
             message: "Данные адрес электронной почты уже используется",
@@ -49,7 +51,9 @@ const registerProcess = async () => {
         return;
     }
 
-    if (formRegisterData.value.login && await authStore.authService.call<string, boolean>("loginExists", formRegisterData.value.login)) {
+    if (formRegisterData.value.login && await authStore.authService.call<{
+        login: string
+    }, boolean>("login_exists", {login: formRegisterData.value.login})) {
         EventBus.emit('app:error', {
             title: "Ошибка валидации",
             message: "Данные логин уже используется",
@@ -70,11 +74,12 @@ const registerProcess = async () => {
             title: "Вы успешно зарегистрировались",
             message: "На вашу почту будет отправлено письмо для потверждения. После этого вы можете войти в систему",
             type: "info"
-        })
+        });
+        activePage.value = "login";
     }
 }
 
-const activePage: Ref<"login" | "register"> = ref("register");
+const activePage: Ref<"login" | "register"> = ref("login");
 const passwordFieldType: Ref<"text" | "password"> = ref("password");
 const loading = ref(false);
 
@@ -153,6 +158,10 @@ const changeViewMode = (): void => {
                     <BaseInput v-model:value="formRegisterData.email" :has-label="true" :required="true" additional-class="ml-xs"
                                autocomplete="userEmail" name="email" placeholder="Введите вашу почту"
                                title="Почта"/>
+                </div>
+                <div class="flex mb-s mt-xs flex-jc-end">
+                    Уже регистрировались?&nbsp;<a class="link transition" href="#" @click.prevent="changeViewMode">
+                    Войти в систему</a>
                 </div>
                 <BaseButton :rounded="true" class="w-full" icon="user-plus" theme="accent" title="Регистрация"
                             @click="registerProcess"/>

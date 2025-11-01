@@ -4,7 +4,7 @@ import './registerServiceWorker'
 import {createPinia} from "pinia";
 import './assets/styles/base.less';
 import {router} from "@/routes";
-import GlobalErrorProvider from "@/components/GlobalErrorProvider.vue";
+import GlobalErrorProvider from "@/components/platform/GlobalErrorProvider.vue";
 
 const pinia = createPinia();
 const app = createApp(App);
