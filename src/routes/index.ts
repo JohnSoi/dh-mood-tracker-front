@@ -11,6 +11,12 @@ const routes: RouteRecordRaw[] = [
         meta: {requiresGuest: true},
     },
     {
+        path: "/forgot-password",
+        name: "Восстановление пароля",
+        component: () => import("@/views/ForgotPasswordView.vue"),
+        meta: {requiresGuest: true},
+    },
+    {
         path: '/:pathMatch(.*)*',
         redirect: '/'
     }
