@@ -270,6 +270,10 @@ class SourceService {
                 console.error(`Запрос к ${url} превысил время ожидания`);
             }
 
+            if (error instanceof Error && error.message === 'Failed to fetch') {
+                EventBus.emit('api:error', {status: 500, details: "Ошибка обращения к стороннему сервису"});
+            }
+
             console.log(error);
             return null;
         }

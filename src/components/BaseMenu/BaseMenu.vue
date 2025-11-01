@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {useMenuStore} from "@/stores/menuStore";
-import {ref} from "vue";
+import {onBeforeUpdate, ref} from "vue";
 
 import MenuItem from "@/components/BaseMenu/MenuItem.vue";
 import {MENU_ITEMS} from "@/constants/base";
@@ -16,13 +16,29 @@ const activeMenuItem = ref("home");
 
 const menuItems = ref<IMenuItem[]>([]);
 
+let lastAuthState: boolean = authStore.isAuthenticated;
+
 MENU_ITEMS.forEach((item: IMenuItem) => {
     if (!authStore.isAuthenticated && !item.public) {
-      return;
+        return;
     }
 
     menuItems.value.push(item);
-})
+});
+
+onBeforeUpdate(() => {
+    if (lastAuthState != authStore.isAuthenticated) {
+        lastAuthState = authStore.isAuthenticated;
+        menuItems.value = [];
+        MENU_ITEMS.forEach((item: IMenuItem) => {
+            if (!authStore.isAuthenticated && !item.public) {
+                return;
+            }
+
+            menuItems.value.push(item);
+        });
+    }
+});
 </script>
 
 <template>
@@ -74,7 +90,7 @@ MENU_ITEMS.forEach((item: IMenuItem) => {
             fullText="Выход"
             icon="right-from-bracket"
             titleText="Выйти из системы"
-            @menuItemClick="appStore.changeTheme"
+            @menuItemClick="authStore.logout"
         />
     </div>
 </template>
@@ -106,8 +122,8 @@ MENU_ITEMS.forEach((item: IMenuItem) => {
     background-color: var(--additional-color);
     border-radius: 9999px;
     font-weight: bold;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 </style>

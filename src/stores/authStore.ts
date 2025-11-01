@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {computed, ComputedRef, Ref, ref} from "vue";
 import {loadFromStorage, saveToStorage} from "@/utils/localStorage";
 import SourceService from "@/utils/service";
+import {router} from "@/routes";
 
 interface IPersonData {
     name: string;
@@ -55,6 +56,7 @@ const useAuthStore = defineStore("auth", () => {
                 token.value = response;
                 saveToStorage("token", response);
                 await setUserData();
+                await router.push("/");
 
                 return true;
             }
@@ -80,6 +82,7 @@ const useAuthStore = defineStore("auth", () => {
                 token.value = '';
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
+                router.push("/login");
                 return true;
             }
         });
@@ -95,6 +98,7 @@ const useAuthStore = defineStore("auth", () => {
         register,
         logout,
         setUserData,
+        authService
     }
 });
 

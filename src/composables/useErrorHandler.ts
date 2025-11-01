@@ -18,7 +18,7 @@ export function useErrorHandler() {
         retryLoading: false
     });
 
-    const showError = (errorInfo: ErrorInfo) => {
+    const showError = (errorInfo: ErrorInfo): void => {
         Object.assign(currentError, {
             ...errorInfo,
             retryLoading: false
@@ -28,6 +28,8 @@ export function useErrorHandler() {
 
     const hideError = () => {
         errorModalVisible.value = false;
+        currentError.details = '';
+        currentError.message = '';
         currentError.retryLoading = false;
     };
 

@@ -7,6 +7,7 @@ withDefaults(defineProps<IBaseInputProps>(), {
     disabled: false,
     readonly: false,
     required: false,
+    additionalClass: ''
 });
 
 const emit = defineEmits<{
@@ -34,7 +35,7 @@ const handleBlur = (event: FocusEvent) => {
 </script>
 
 <template>
-    <div class="BaseInput__wrapper w-full">
+    <div :class="additionalClass" class="BaseInput__wrapper w-full">
         <label
             :for="name"
             class="BaseInput__label"
@@ -45,7 +46,7 @@ const handleBlur = (event: FocusEvent) => {
         </label>
 
         <div
-            class="BaseInput__content pl-xs pr-xs flex f-align-center border-round w-full mb-xs"
+            class="BaseInput__content pl-xs pr-xs flex f-align-center border-round w-full"
             :class="{
                 'mt-2xs': hasLabel,
                 'BaseInput__content--error': error,

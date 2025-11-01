@@ -2,6 +2,7 @@
 @import "./screen";
 @import "./spacing";
 @import "./display";
+@import "./font";
 
 * {
   box-sizing: border-box;
@@ -28,4 +29,26 @@
 
 .cursor-default {
   cursor: default;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.position-fixed {
+  position: fixed;
+}
+
+.link {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
 }

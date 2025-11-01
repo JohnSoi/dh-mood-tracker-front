@@ -16,8 +16,7 @@
 
 <script lang="ts" setup>
 import ErrorModal from './ErrorModal.vue';
-import {useErrorHandler} from '@/composables/useErrorHandler';
-import {provide} from "vue";
+import {ErrorInfo, useErrorHandler} from '@/composables/useErrorHandler';
 import {EventBus} from "@/utils/eventBus";
 import {IApiError} from "@/interfaces/base";
 
@@ -30,7 +29,6 @@ const {
     handleApiError
 } = useErrorHandler();
 
-// Предоставляем методы глобально
-provide('errorHandler', {showError, handleApiError});
 EventBus.on('api:error', (res: IApiError) => handleApiError(res));
+EventBus.on('app:error', (res: ErrorInfo) => showError(res));
 </script>

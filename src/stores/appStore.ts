@@ -5,6 +5,7 @@ import {loadFromStorage, saveToStorage} from "@/utils/localStorage";
 const useAppStore = defineStore("app", () => {
     const theme: Ref<"light" | "dark"> = ref(loadFromStorage<"light" | "dark">("appTheme", "light"));
 
+
     function changeTheme() {
         if (theme.value === "dark") {
             theme.value = "light";

@@ -270,6 +270,7 @@ interface IBaseInputProps {
      * ```
      */
     success?: boolean;
+    additionalClass?: string;
 }
 
 export {IBaseInputProps};
